@@ -3,7 +3,7 @@ import React from 'react';
 const ContactItem = ({ item, onDelete }) => {
     return (
         <li>
-            {item.name} <button onClick={() => onDelete(item.id)}>delete</button>
+            {item.name}: {item.number} <button onClick={() => onDelete(item.id)}>delete</button>
         </li>
     );
 }

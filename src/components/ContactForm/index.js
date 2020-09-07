@@ -6,7 +6,7 @@ class ContactForm extends Component {
 
     state = {
         name: '',
-        phone: '',
+        number: '',
     }
 
     handleSubmit = (e) => {
@@ -17,12 +17,15 @@ class ContactForm extends Component {
         this.props.onSubmit({
             id: uuid_v4(),
             name: this.state.name,
+            number: this.state.number,
         });
 
         this.setState({ name: '' });
     }
 
-    handleInputChange = (e) => this.setState({ name: e.target.value });
+    handleNameInputChange = (e) => this.setState({ name: e.target.value });
+
+    handleNumberInputChange = (e) => this.setState({ number: e.target.value });
 
     render() {
         return (
@@ -31,8 +34,15 @@ class ContactForm extends Component {
                 <p><input
                     name="name"
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleNameInputChange}
                     value={this.state.name}
+                /></p>
+                <p>Number</p>
+                <p><input
+                    name="number"
+                    type="text"
+                    onChange={this.handleNumberInputChange}
+                    value={this.state.number}
                 /></p>
                 <p><button>Add contact</button>
                 </p>
