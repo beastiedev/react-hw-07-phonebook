@@ -17,6 +17,9 @@ class App extends Component {
   }
 
   handleAddContact = (contact) => {
+    if (this.contactExists(contact)) {
+      return alert(`${contact.name} is already in contacts`);
+    }
     this.setState(({ contacts }) => ({ contacts: [...contacts, contact] }));
   }
 
@@ -28,6 +31,10 @@ class App extends Component {
 
   handleOnFilter = (filter) => {
     this.setState({ filter: filter });
+  }
+
+  contactExists(newContact) {
+    return !!(this.state.contacts.filter(contact => contact.name === newContact.name)).length;
   }
 
   getContacts() {

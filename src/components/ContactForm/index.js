@@ -20,7 +20,7 @@ class ContactForm extends Component {
             number: this.state.number,
         });
 
-        this.setState({ name: '' });
+        this.setState({ name: '', number: '' });
     }
 
     handleNameInputChange = (e) => this.setState({ name: e.target.value });
