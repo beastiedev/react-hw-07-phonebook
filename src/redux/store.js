@@ -1,12 +1,10 @@
-import { createStore, combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
+import contactForm from './contactForm/contactFormReducer';
 
-import contactFormReducer from './contactForm/contactFormReducer';
-
-const store = createStore(
-  combineReducers({
-    contactForm: contactFormReducer
-  }),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = configureStore({
+  reducer: {
+    contactForm
+  }
+});
 
 export default store;
