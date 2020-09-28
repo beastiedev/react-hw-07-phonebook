@@ -1,14 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { onChangeName, onChangeNumber, onSubmit, onDelete, onFilter, onRestore } from './contactFormActions';
 import {
+  initialState,
   handleChangeName,
   handleChangeNumber,
-  handleSubmit,
   handleDelete,
   handleFilter,
   handleRestore,
-  initialState
+  handleSubmit
 } from './contactFormHandlers';
+
+// reducers
 
 const reducer = createReducer(initialState, {
   [onChangeName]: handleChangeName,

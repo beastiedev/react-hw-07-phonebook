@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 import ContactItem from '../ContactItem';
 import { onDelete } from '../../redux/contactForm/contactFormActions';
 
-const ContactList = ({ items, onDelete }) => {
+const ContactList = ({ items, filter, onDelete }) => {
+  const filteredItems = () => {
+    return items.filter((item) => new RegExp(`${filter}`, 'i').test(item.name));
+  };
+
   return (
     <ul className="contact-list">
-      {items.map((item) => {
-        return !item.isHidden && <ContactItem key={item.id} item={item} onDelete={() => onDelete(item.id)} />;
+      {filteredItems().map((item) => {
+        return <ContactItem key={item.id} item={item} onDelete={() => onDelete(item.id)} />;
       })}
     </ul>
   );

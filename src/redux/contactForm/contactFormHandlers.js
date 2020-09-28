@@ -15,16 +15,12 @@ export const initialState = {
 const LOCAL_STORAGE_KEY = 'contactsList';
 
 const storeContacts = (contacts) => {
-  contacts.map((item) => delete item.isHidden);
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
 };
 
 const restoreContacts = () => {
-  let contacts = [];
-  if (localStorage.getItem(LOCAL_STORAGE_KEY)) {
-    contacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-  }
-  return contacts.length ? contacts : initialState.contacts.items;
+  const contacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  return contacts ? contacts : initialState.contacts.items;
 };
 
 // reduser's handlers
@@ -64,17 +60,7 @@ export const handleDelete = (state, { payload: id }) => {
 };
 
 export const handleFilter = (state, { payload: filter }) => {
-  state.contacts.items.forEach((contact) => {
-    if (!new RegExp(`${filter}`, 'i').test(contact.name)) {
-      contact.isHidden = true;
-    } else {
-      delete contact.isHidden;
-    }
-  });
-  return {
-    ...state,
-    contacts: { ...state.contacts, items: [ ...state.contacts.items ], filter }
-  };
+  return { ...state, contacts: { ...state.contacts, filter } };
 };
 
 export const handleRestore = (state) => {
