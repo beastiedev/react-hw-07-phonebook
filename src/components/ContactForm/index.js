@@ -1,58 +1,34 @@
-import React from "react";
-import { Component } from "react";
-import { v4 as uuid_v4 } from "uuid";
+import React from 'react';
+import { v4 as uuid_v4 } from 'uuid';
+import { connect } from 'react-redux';
+import * as contactFormActions from '../../redux/contactForm/contactFormActions';
 
-class ContactForm extends Component {
-  state = {
-    name: "",
-    number: "",
-  };
-
-  handleSubmit = (e) => {
+const ContactForm = ({ name, number, onSubmit, onChangeName, onChangeNumber }) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
-    if (!this.state.name) {
-      return;
-    }
-    this.props.onSubmit({
-      id: uuid_v4(),
-      name: this.state.name,
-      number: this.state.number,
-    });
-
-    this.setState({ name: "", number: "" });
+    onSubmit(uuid_v4());
   };
 
-  handleNameInputChange = (e) => this.setState({ name: e.target.value });
+  return (
+    <form className="contact-form" onSubmit={handleOnSubmit}>
+      <p>Name</p>
+      <p>
+        <input name="name" type="text" onChange={(e) => onChangeName(e.target.value)} value={name} />
+      </p>
+      <p>Number</p>
+      <p>
+        <input name="number" type="text" onChange={(e) => onChangeNumber(e.target.value)} value={number} />
+      </p>
+      <p>
+        <button>Add contact</button>
+      </p>
+    </form>
+  );
+};
 
-  handleNumberInputChange = (e) => this.setState({ number: e.target.value });
+const mapStateToProps = (state) => ({
+  name: state.contactForm.name,
+  number: state.contactForm.number
+});
 
-  render() {
-    return (
-      <form className="contact-form" onSubmit={this.handleSubmit}>
-        <p>Name</p>
-        <p>
-          <input
-            name="name"
-            type="text"
-            onChange={this.handleNameInputChange}
-            value={this.state.name}
-          />
-        </p>
-        <p>Number</p>
-        <p>
-          <input
-            name="number"
-            type="text"
-            onChange={this.handleNumberInputChange}
-            value={this.state.number}
-          />
-        </p>
-        <p>
-          <button>Add contact</button>
-        </p>
-      </form>
-    );
-  }
-}
-
-export default ContactForm;
+export default connect(mapStateToProps, contactFormActions)(ContactForm);
