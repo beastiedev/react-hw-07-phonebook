@@ -14,6 +14,21 @@ const initialState = {
   }
 };
 
+const LOCAL_STORAGE_KEY = 'contactsList';
+
+const storeContacts = (contacts) => {
+  contacts.map((item) => delete item.isHidden);
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+};
+
+const restoreContacts = () => {
+  let contacts = [];
+  if (localStorage.getItem(LOCAL_STORAGE_KEY)) {
+    contacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  }
+  return contacts.length ? contacts : initialState.contacts.items;
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.CHANGE_NAME:
@@ -26,6 +41,12 @@ export default (state = initialState, action) => {
       if (!state.name) {
         return state;
       }
+
+      if (state.contacts.items.filter((contact) => contact.name === state.name).length) {
+        alert(`${state.name} is already in contacts`);
+        return state;
+      }
+
       const contact = {
         id: action.payload.id,
         name: state.name,
@@ -33,11 +54,13 @@ export default (state = initialState, action) => {
       };
       const addContactsItems = [ ...state.contacts.items, contact ];
       const addContacts = { ...state.contacts, items: addContactsItems };
+      storeContacts(addContactsItems);
       return { ...state, contacts: addContacts, name: '', number: '', filter: '' };
 
     case types.DELETE_CONTACT:
       const delContactsItems = state.contacts.items.filter((item) => item.id !== action.payload.id);
       const delContacts = { ...state.contacts, items: delContactsItems };
+      storeContacts(delContactsItems);
       return { ...state, contacts: delContacts };
 
     case types.ON_FILTER:
@@ -52,6 +75,17 @@ export default (state = initialState, action) => {
         ...state,
         contacts: { ...state.contacts, items: [ ...state.contacts.items ], filter: action.payload.filter }
       };
+
+    case types.ON_RESTORE:
+      const storedContacts = restoreContacts();
+      return {
+        ...state,
+        contacts: { ...state.contacts, items: [ ...storedContacts ] }
+      };
+
+    // case types.ON_STORE:
+    //   storeContacts(state.contacts.items);
+    //   return state;
 
     default:
       return state;

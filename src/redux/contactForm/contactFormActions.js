@@ -5,3 +5,4 @@ export const onChangeName = (name) => ({ type: types.CHANGE_NAME, payload: { nam
 export const onChangeNumber = (number) => ({ type: types.CHANGE_NUMBER, payload: { number } });
 export const onDelete = (id) => ({ type: types.DELETE_CONTACT, payload: { id } });
 export const onFilter = (filter) => ({ type: types.ON_FILTER, payload: { filter } });
+export const onRestore = () => ({ type: types.ON_RESTORE, payload: { } });
