@@ -26,7 +26,7 @@ export const addContact = (newContact) => (dispatch, getState) => {
     return dispatch(addFailure('name is empty'));
   }
 
-  if (contacts.contacts.filter((contact) => contact.name === newContact.name).length) {
+  if (contacts.items.filter((contact) => contact.name === newContact.name).length) {
     alert(`${newContact.name} is already in contacts`);
     return dispatch(addFailure('name is already in contacts'));
   }

@@ -16,7 +16,7 @@ import {
 
 // initial state
 const initialState = {
-  contacts: [],
+  items: [],
   isLoading: false,
   filter: '',
   form: { name: '', number: '' }
@@ -24,9 +24,9 @@ const initialState = {
 
 // functions
 
-const handleSetContacts = (_, { payload: contacts }) => contacts;
+const handleSetContacts = (_, { payload: items }) => items;
 
-const handleAddContact = (contacts, { payload }) => [ ...contacts, payload ];
+const handleAddContact = (items, { payload }) => [ ...items, payload ];
 
 const handleFilter = (_, { payload: filter }) => filter;
 
@@ -34,7 +34,7 @@ const handleChangeName = (form, { payload: name }) => ({ ...form, name });
 
 const handleChangeNumber = (form, { payload: number }) => ({ ...form, number });
 
-const handleDelete = (contacts, { payload: contactId }) => contacts.filter(({ id }) => id !== contactId);
+const handleDelete = (items, { payload: contactId }) => items.filter(({ id }) => id !== contactId);
 
 // reducers
 
@@ -47,7 +47,7 @@ const contactsFormReducer = createReducer(initialState.form, {
   [changeNumber]: handleChangeNumber
 });
 
-const contactsReducer = createReducer(initialState.contacts, {
+const contactsReducer = createReducer(initialState.items, {
   [fetchSuccess]: handleSetContacts,
   [addSuccess]: handleAddContact,
   [deleteSuccess]: handleDelete
@@ -68,7 +68,7 @@ const isLoadingReducer = createReducer(initialState.isLoading, {
 });
 
 export default combineReducers({
-  contacts: contactsReducer,
+  items: contactsReducer,
   form: contactsFormReducer,
   filter: filterReducer,
   isLoading: isLoadingReducer

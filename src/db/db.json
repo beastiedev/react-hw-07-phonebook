@@ -1,14 +1,3 @@
 {
-  "contacts": [
-    {
-      "id": "d9c1dbc8-7a9a-4d67-ad0e-ec49d62ffa5c",
-      "name": "Павел Бессмертный",
-      "number": "1231231c1 123 "
-    },
-    {
-      "id": "194865f3-3828-4d6f-8224-339bfb313b68",
-      "name": "Pavel Bessmertniy",
-      "number": "1231231c1 123 "
-    }
-  ]
+  "contacts": []
 }
