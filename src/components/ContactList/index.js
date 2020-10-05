@@ -1,26 +1,39 @@
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ContactItem from '../ContactItem';
-import { onDelete } from '../../redux/contactForm/contactFormActions';
+import { fetchContacts, deleteContact } from '../../redux/contacts/contactsApi';
 
-const ContactList = ({ items, filter, onDelete }) => {
+const ContactList = ({ contacts, filter, isLoading, deleteContact, fetchContacts }) => {
   const filteredItems = () => {
-    return items.filter((item) => new RegExp(`${filter}`, 'i').test(item.name));
+    return contacts.filter((item) => new RegExp(`${filter}`, 'i').test(item.name));
   };
 
+  useEffect(
+    () => {
+      fetchContacts();
+    },
+    [ fetchContacts ]
+  );
+
   return (
-    <ul className="contact-list">
-      {filteredItems().map((item) => {
-        return <ContactItem key={item.id} item={item} onDelete={() => onDelete(item.id)} />;
-      })}
-    </ul>
+    <Fragment>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul className="contact-list">
+          {filteredItems().map((item) => {
+            return <ContactItem key={item.id} item={item} onDelete={() => deleteContact(item.id)} />;
+          })}
+        </ul>
+      )}
+    </Fragment>
   );
 };
 
 ContactList.propTypes = {
-  onDelete: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(
+  deleteContact: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([ PropTypes.string ]),
       name: PropTypes.string
@@ -32,9 +45,15 @@ ContactList.defaultProps = {
   contacts: []
 };
 
-const mapStateToProps = (state) => ({
-  items: state.contactForm.contacts.items,
-  filter: state.contactForm.contacts.filter
+const mapStateToProps = ({ contacts }) => ({
+  contacts: contacts.contacts,
+  filter: contacts.filter,
+  isLoading: contacts.isLoading
 });
 
-export default connect(mapStateToProps, { onDelete })(ContactList);
+const mapDispatchToProps = {
+  deleteContact,
+  fetchContacts
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

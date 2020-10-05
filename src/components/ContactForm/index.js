@@ -1,23 +1,28 @@
 import React from 'react';
 import { v4 as uuid_v4 } from 'uuid';
 import { connect } from 'react-redux';
-import * as contactFormActions from '../../redux/contactForm/contactFormActions';
+import { changeName, changeNumber } from '../../redux/contacts/contactsActions';
+import { addContact } from '../../redux/contacts/contactsApi';
 
-const ContactForm = ({ name, number, onSubmit, onChangeName, onChangeNumber }) => {
+const ContactForm = ({ name, number, addContact, changeName, changeNumber }) => {
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    onSubmit(uuid_v4());
+    addContact({
+      id: uuid_v4(),
+      name,
+      number
+    });
   };
 
   return (
     <form className="contact-form" onSubmit={handleOnSubmit}>
       <p>Name</p>
       <p>
-        <input name="name" type="text" onChange={(e) => onChangeName(e.target.value)} value={name} />
+        <input name="name" type="text" onChange={(e) => changeName(e.target.value)} value={name} />
       </p>
       <p>Number</p>
       <p>
-        <input name="number" type="text" onChange={(e) => onChangeNumber(e.target.value)} value={number} />
+        <input name="number" type="text" onChange={(e) => changeNumber(e.target.value)} value={number} />
       </p>
       <p>
         <button>Add contact</button>
@@ -26,9 +31,15 @@ const ContactForm = ({ name, number, onSubmit, onChangeName, onChangeNumber }) =
   );
 };
 
-const mapStateToProps = (state) => ({
-  name: state.contactForm.name,
-  number: state.contactForm.number
+const mapStateToProps = ({ contacts }) => ({
+  name: contacts.form.name,
+  number: contacts.form.number
 });
 
-export default connect(mapStateToProps, contactFormActions)(ContactForm);
+const mapDispatchToProps = {
+  addContact,
+  changeName,
+  changeNumber
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

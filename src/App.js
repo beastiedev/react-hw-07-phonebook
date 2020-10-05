@@ -5,13 +5,8 @@ import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import Filter from './components/Filter';
 import store from './redux/store';
-import { onRestore } from './redux/contactForm/contactFormActions';
 
 class App extends Component {
-  componentDidMount() {
-    store.dispatch(onRestore());
-  }
-
   render() {
     return (
       <Provider store={store}>
