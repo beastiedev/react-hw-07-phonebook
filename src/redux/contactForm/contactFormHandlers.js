@@ -12,17 +12,6 @@ export const initialState = {
   }
 };
 
-const LOCAL_STORAGE_KEY = 'contactsList';
-
-const storeContacts = (contacts) => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
-};
-
-const restoreContacts = () => {
-  const contacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-  return contacts ? contacts : initialState.contacts.items;
-};
-
 // reduser's handlers
 export const handleChangeName = (state, { payload: name }) => ({ ...state, name });
 
@@ -45,16 +34,12 @@ export const handleSubmit = (state, { payload: id }) => {
   };
   const contacts = { ...state.contacts, items: [ ...state.contacts.items, contact ] };
 
-  storeContacts(contacts.items);
-
   return { ...state, contacts, name: '', number: '', filter: '' };
 };
 
 export const handleDelete = (state, { payload: id }) => {
   const delContactsItems = state.contacts.items.filter((item) => item.id !== id);
   const contacts = { ...state.contacts, items: delContactsItems };
-
-  storeContacts(delContactsItems);
 
   return { ...state, contacts };
 };
@@ -64,9 +49,8 @@ export const handleFilter = (state, { payload: filter }) => {
 };
 
 export const handleRestore = (state) => {
-  const storedContacts = restoreContacts();
   return {
     ...state,
-    contacts: { ...state.contacts, items: [ ...storedContacts ] }
+    contacts: { ...state.contacts, items: [ ] }
   };
 };

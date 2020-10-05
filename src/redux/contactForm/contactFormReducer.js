@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { onChangeName, onChangeNumber, onSubmit, onDelete, onFilter, onRestore } from './contactFormActions';
+import { onChangeName, onChangeNumber, onSubmit, onDelete, onFilter } from './contactFormActions';
 import {
   initialState,
   handleChangeName,
   handleChangeNumber,
   handleDelete,
   handleFilter,
-  handleRestore,
+  // handleRestore,
   handleSubmit
 } from './contactFormHandlers';
 
@@ -18,7 +18,7 @@ const reducer = createReducer(initialState, {
   [onSubmit]: handleSubmit,
   [onDelete]: handleDelete,
   [onFilter]: handleFilter,
-  [onRestore]: handleRestore
+  // [onRestore]: handleRestore
 });
 
 export default reducer;
